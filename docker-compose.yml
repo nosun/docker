@@ -1,26 +1,33 @@
 nginx:
-    image: nosun/nginx:2.0
+    image: nosun/nginx:v5
     ports:
       - "80:80"
     links:
       - "php"
     volumes:
-      - /data:/data
-      - /opt/docker/nginx/conf.d:/etc/nginx/conf.d
+      - /opt/data/www:/data/www
+
 php:
-    image: nosun/php56:2.0
+    image: nosun/php7:v9
     ports:
-      - "9001:9000"
+      - "9002:9000"
+      - "9003:9001"
     links:
       - "mysql"
+      - "redis"
     volumes:
-      - /data:/data
-      - /opt/docker/php/php.ini:/usr/local/etc/php/php.ini  
+      - /opt/data/www:/data/www
+
 mysql:
-    image: nosun/mysql:2.0
+    image: nosun/mysql
     ports:
-      - "33060:3306"
+      - "3305:3306"
     volumes:
-      - /opt/docker/data/mysql:/var/lib/mysql
+      - /opt/data/mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: rensheng
+
+redis:
+    image: nosun/redis
+    ports:
+      - "6378:6379"

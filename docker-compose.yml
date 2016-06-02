@@ -1,0 +1,26 @@
+nginx:
+    image: nosun/nginx:2.0
+    ports:
+      - "80:80"
+    links:
+      - "php"
+    volumes:
+      - /data:/data
+      - /opt/docker/nginx/conf.d:/etc/nginx/conf.d
+php:
+    image: nosun/php56:2.0
+    ports:
+      - "9001:9000"
+    links:
+      - "mysql"
+    volumes:
+      - /data:/data
+      - /opt/docker/php/php.ini:/usr/local/etc/php/php.ini  
+mysql:
+    image: nosun/mysql:2.0
+    ports:
+      - "33060:3306"
+    volumes:
+      - /opt/docker/data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rensheng
